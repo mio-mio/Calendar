@@ -9,16 +9,18 @@ class Calendar{
     }
     public function create_rows(){
         $last_day = date("j", mktime(0,0,0,$this->month+1,0,$this->year));
+      
         //  echo $this->year."年".$this->month."月の最終日は".$last_day."日です";
         $rows = array();
         $row = self::init_row();
 
         for($i=1;$i <= $last_day; $i++){
+            //番号で曜日を取得
             $date = Date("w", mktime(0,0,0,$this->month,$i,$this->year));
             $row[$date] = $i;
-
-            if($date == 6|| $i == $last_day){
-                $rows []= $row;
+            //$date==6（土曜日）指定を0(日曜日)に変更
+            if($date == 0|| $i == $last_day){
+                $rows[]= $row;
                 $row = self::init_row();
             }
         }
@@ -41,6 +43,10 @@ $year = Date("Y"); //今年
 $month = Date("n"); //今月
 $cal = new Calendar($year, $month);
 
+// $next_month = Date("++n"); //来月？
+// var_dump($next_month);
+
+
 echo <<< EOL
 
 <!DOCTYPE html>
@@ -52,11 +58,7 @@ echo <<< EOL
     h1 {
         font-size:18px;
         margin: 0;
-    }
-    th {
-    background-color: red;
-    font-size: 13px;
-    text-align: center;
+        background-color: #FFFFCC;
     }
     th {
     background-color: #C0C0C0;
@@ -65,6 +67,7 @@ echo <<< EOL
     }
     .sat {
     background-color: #99CCFF;
+    font-weight: bold;
     }
     .sun {
     background-color: #FF99CC;
@@ -80,50 +83,36 @@ echo <<< EOL
 <h1>
 EOL;
 
-echo $cal->get_info();
+echo "今月: ". $cal->get_info();
 
 
 echo <<< EOL
 </h1>
 <table>
 
-<colgroup span="1" class="sun"></colgroup>
-<colgroup span="5" class="weekdays"></colgroup>
+
+<colgroup span="5"></colgroup>
 <colgroup span="1" class="sat"></colgroup>
+<colgroup span="1" class="sun"></colgroup>
 <tr>
-<th class="sun">日</th>
   <th>月</th>
   <th>火</th>
   <th>水</th>
   <th>木</th>
   <th>金</th>
   <th class="sat">土</th>
-  <!--   <th class="sun">日</th> -->
+<th class="sun">日</th>
 </tr>
 
 EOL;
 
 foreach( $cal->create_rows() as $row ){
     echo "<tr>";
-
-    // for($i=1;$i<=6;$i++){
-    for($i=0;$i<=6;$i++){
+    //$i=1（月曜日）から開始で6（土曜日）までループ、最後に0(日曜日)をecho
+    for($i=1;$i<=6;$i++){
         echo "<td>".$row[$i]."</td>";
     }
-
-
-    // if 土曜日であれば、青くする
-
-
-    // $first = $row[0];
-    // echo "<td>".$first."</td>";
-    // if 日曜日の最初が＊であれば、それを消して表示　else そのまま
-    // if( === "*"){
-
-    // }else{
-        // echo "<td>".$row[0]."</td>";
-    // }
-    
+    echo "<td>".$row[0]."</td>";
     
     echo "</tr>";
 }
