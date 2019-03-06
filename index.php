@@ -27,7 +27,7 @@ class Calendar{
         return $rows;
     }
     public function get_info(){
-        return $this->year . "-" . $this->month;
+        return "This month : " . $this->year . "-" . $this->month;
     }
 
     private static function init_row(){
@@ -43,9 +43,6 @@ $year = Date("Y"); //今年
 $month = Date("n"); //今月
 $cal = new Calendar($year, $month);
 
-// $next_month = Date("++n"); //来月？
-// var_dump($next_month);
-
 
 echo <<< EOL
 
@@ -53,37 +50,15 @@ echo <<< EOL
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="custom.css" type="text/css">
   <title>PHP Calendar</title>
-    <style>
-    h1 {
-        font-size:18px;
-        margin: 0;
-        background-color: #FFFFCC;
-    }
-    th {
-    background-color: #C0C0C0;
-    font-size: 13px;
-    text-align: center;
-    }
-    .sat {
-    background-color: #99CCFF;
-    font-weight: bold;
-    }
-    .sun {
-    background-color: #FF99CC;
-    }
-
-    input[type="text"] {
-    width: 35px;
-    }
-  </style>
 </head>
 <body>
-
+<div class="container">
 <h1>
 EOL;
 
-echo "今月: ". $cal->get_info();
+echo $cal->get_info();
 
 
 echo <<< EOL
@@ -101,14 +76,15 @@ echo <<< EOL
   <th>木</th>
   <th>金</th>
   <th class="sat">土</th>
-<th class="sun">日</th>
+  <th class="sun">日</th>
 </tr>
-
+</div>
 EOL;
 
 foreach( $cal->create_rows() as $row ){
     echo "<tr>";
     //$i=1（月曜日）から開始で6（土曜日）までループ、最後に0(日曜日)をecho
+    
     for($i=1;$i<=6;$i++){
         echo "<td>".$row[$i]."</td>";
     }
