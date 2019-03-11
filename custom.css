@@ -2,8 +2,7 @@
 
 body {
     max-width: 100%;
-    background-image: url("moon.jpg")
-    
+    background-image: url("moon.jpg");
 }
 .container{
     padding: 0;
@@ -35,4 +34,8 @@ td {
 .sun {
     background-color: #FF99CC;
     color: red;
+}
+
+.space{
+    margin: 20px;
 }
