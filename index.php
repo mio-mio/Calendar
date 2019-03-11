@@ -100,7 +100,7 @@ foreach( $cal->create_rows() as $row ){
 echo <<< EOL
 </table>
 <div class="space"></div>
-<!--来年のサンプル-->
+<!--来年のカレンダー-->
 
 
 <h1>
