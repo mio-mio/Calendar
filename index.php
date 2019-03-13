@@ -55,34 +55,34 @@ echo <<< EOL
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="custom.css" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <title>PHP Calendar</title>
 </head>
 <body>
 <div class="container">
-<h1>
+  <div id="this_month">
+    <h1>
 EOL;
 
 echo 'This' . $cal->get_info();
 
-
 echo <<< EOL
-</h1>
-<table>
+    </h1>
+    <table>
 
 
-<colgroup span="5"></colgroup>
-<colgroup span="1" class="sat"></colgroup>
-<colgroup span="1" class="sun"></colgroup>
-<tr>
-  <th>月</th>
-  <th>火</th>
-  <th>水</th>
-  <th>木</th>
-  <th>金</th>
-  <th class="sat">土</th>
-  <th class="sun">日</th>
-</tr>
-</div>
+    <colgroup span="5"></colgroup>
+    <colgroup span="1" class="sat"></colgroup>
+    <colgroup span="1" class="sun"></colgroup>
+    <tr>
+    <th>月</th>
+    <th>火</th>
+    <th>水</th>
+    <th>木</th>
+    <th>金</th>
+    <th class="sat">土</th>
+    <th class="sun">日</th>
+    </tr>
 EOL;
 
 foreach( $cal->create_rows() as $row ){
@@ -98,35 +98,33 @@ foreach( $cal->create_rows() as $row ){
 }
 
 echo <<< EOL
-</table>
-<div class="space"></div>
-<!--来年のカレンダー-->
-
-
-<h1>
+    </table>
+  </div>
+  <div class="space"></div>
+  <!--来年のカレンダー-->
+  <div id="next_month">
+    <h1>
 EOL;
 
 echo 'Next' . $cal_n->get_info();
 
 
 echo <<< EOL
-</h1>
-<table>
+    </h1>
+    <table>
+    <colgroup span="5"></colgroup>
+    <colgroup span="1" class="sat"></colgroup>
+    <colgroup span="1" class="sun"></colgroup>
+    <tr>
+    <th>月</th>
+    <th>火</th>
+    <th>水</th>
+    <th>木</th>
+    <th>金</th>
+    <th class="sat">土</th>
+    <th class="sun">日</th>
+    </tr>
 
-
-<colgroup span="5"></colgroup>
-<colgroup span="1" class="sat"></colgroup>
-<colgroup span="1" class="sun"></colgroup>
-<tr>
-  <th>月</th>
-  <th>火</th>
-  <th>水</th>
-  <th>木</th>
-  <th>金</th>
-  <th class="sat">土</th>
-  <th class="sun">日</th>
-</tr>
-</div>
 EOL;
 
 foreach( $cal_n->create_rows() as $row ){
@@ -142,8 +140,10 @@ foreach( $cal_n->create_rows() as $row ){
 }
 
 echo <<< EOL
-</table>
-
+    </table>
+  </div>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
 EOL;
