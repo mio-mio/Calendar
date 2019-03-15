@@ -1,5 +1,9 @@
 <?php
 
+require_once("vendor/autoload.php");
+
+use \Yasumi\Yasumi;
+
 class Calendar{
     private $year;
     private $month;
@@ -40,11 +44,17 @@ class Calendar{
         return $ary;
     }
 }
-
 $year = Date("Y"); //今年
-// $month = Date("n"); //今月
 $this_month = Date("n"); //今月
 $next_month =strval(intval($this_month)+1); //来月
+
+$holidays = Yasumi::create('Japan', $year, 'ja_JP');
+$SOM = date("Y-m") ."-01";
+$EOM = date("Y-m",strtotime("+1 month"))."-00";
+$SOM_next =  date("Y-m",strtotime("+1 month"))."-01";
+$EOM_next = date("Y-m",strtotime("+2 month"))."-00";
+
+
 $cal = new Calendar($year, $this_month);
 $cal_n = new Calendar($year, $next_month);
 
@@ -84,11 +94,10 @@ echo <<< EOL
     <th class="sun">日</th>
     </tr>
 EOL;
-
 foreach( $cal->create_rows() as $row ){
     echo "<tr>";
-    //$i=1（月曜日）から開始で6（土曜日）までループ、最後に0(日曜日)をecho
-    
+
+    //$i=1（月曜日）から開始で6（土曜日）までループ、最後に0(日曜日)をecho    
     for($i=1;$i<=6;$i++){
         echo "<td>".$row[$i]."</td>";
     }
@@ -96,11 +105,23 @@ foreach( $cal->create_rows() as $row ){
     
     echo "</tr>";
 }
+    echo "</table>";
 
 echo <<< EOL
-    </table>
+    <div class="h-day">Holiday：
+EOL;
+  /* 今月の祝日 */
+    foreach ($holidays->getHolidayDates() as $date) {
+        if($date >= $SOM && $date <= $EOM){
+        echo $date . '<br/>';
+        }
+    } 
+echo <<< EOL
+
+    </div>
   </div>
   <div class="space"></div>
+
   <!--来年のカレンダー-->
   <div id="next_month">
     <h1>
@@ -138,9 +159,21 @@ foreach( $cal_n->create_rows() as $row ){
     
     echo "</tr>";
 }
-
+    echo "</table>";
+    
 echo <<< EOL
-    </table>
+
+    <div class="h-day">Holiday：
+EOL;
+  /* 来月の祝日 */
+    foreach ($holidays->getHolidayDates() as $date) {
+        if($date >= $SOM_next && $date <= $EOM_next){
+        echo $date . '<br/>';
+        }
+    } 
+echo <<< EOL
+
+    </div>
   </div>
 </div>
 <script src="script.js"></script>
@@ -148,20 +181,5 @@ echo <<< EOL
 </html>
 EOL;
 
-//祝日の表示
-require_once("vendor/autoload.php");
-
-use \Yasumi\Yasumi;
-
-
-$holidays = Yasumi::create('Japan', $year, 'ja_JP');
-
-
-print_r($holidays->getHolidayDates());
-
-// Get a list all of the holiday dates
-// foreach ($holidays->getHolidayDates() as $date) {
-//     echo $date . '<br/>';
-// }
 
 ?>
