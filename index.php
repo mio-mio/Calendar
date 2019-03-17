@@ -44,6 +44,24 @@ class Calendar{
         return $ary;
     }
 }
+
+
+// Todayについては未実装分
+class Today{
+    private $day;
+
+    public function __construct($d){
+        $this->day = $d;
+    }
+
+    public function get_today(){
+        return $this->day;
+    }
+};
+
+
+$day = Date("j");//今日の日付
+
 $year = Date("Y"); //今年
 $this_month = Date("n"); //今月
 $next_month =strval(intval($this_month)+1); //来月
